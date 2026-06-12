@@ -280,6 +280,7 @@
        <p>Email: <a href="mailto:director_prafullakinkar@shreeinfotechsoft.com">director_prafullakinkar@shreeinfotechsoft.com</a></p>
         <p>LinkedIn: <a href="https://www.linkedin.com/in/shreeinfotech-software-development-private-limited-1bb10138b" target="_blank">linkedin.com/company/shreeinfotechsoft</a></p>
          <p>Location: Yavatmal, Maharashtra, India</p>
+         <p>LinkedIn: <a href="privacy-policy.html" target="_blank">Privacy Policy</a></p>
       </div>
     </div>
 
