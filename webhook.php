@@ -1,6 +1,6 @@
 <?php
 // Verification for Meta Webhooks
-$verify_token = "my_verify_token";
+$verify_token = "Ai_Agent";
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $mode = $_GET['hub_mode'] ?? $_GET['hub.mode'] ?? '';
