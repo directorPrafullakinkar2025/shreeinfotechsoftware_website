@@ -78,7 +78,7 @@
 
     <h2>Programming Course Enquiry</h2>
 
-    <form action="submit_enquiry.php" method="POST">
+    <form action="enquiry.php" method="POST">
 
         <label>Full Name</label>
         <input type="text" name="name" placeholder="Enter your name" required>
