@@ -1,3 +1,50 @@
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $data = [
+        'name' => $_POST['name'],
+        'course' => $_POST['course'],
+        'mobilenumber' => $_POST['mobilenumber'],
+        'question' => $_POST['question']
+    ];
+
+    $ch = curl_init("https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry");
+
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo "cURL Error: " . curl_error($ch);
+    } else {
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        $result = json_decode($response, true);
+
+if ($httpCode == 200 && isset($result['success']) && $result['success']) {
+    echo "<script>alert('".$result['message']."');</script>";
+} else {
+    echo "<script>alert('Submission failed.');</script>";
+}
+    }
+
+    curl_close($ch);
+
+}   // <-- This closing brace was missing
+echo "<pre>";
+echo "HTTP Code: ".$httpCode."\n";
+echo "Response:\n";
+echo $response;
+echo "</pre>";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,7 +106,7 @@
             margin-top:20px;
             padding:12px;
             background:#1f4e79;
-            color:white;
+            color:#fff;
             border:none;
             border-radius:5px;
             font-size:16px;
@@ -78,7 +125,7 @@
 
     <h2>Programming Course Enquiry</h2>
 
-    <form action="enquiry.php" method="POST">
+    <form action="" method="POST">
 
         <label>Full Name</label>
         <input type="text" name="name" placeholder="Enter your name" required>
@@ -102,18 +149,20 @@
         </select>
 
         <label>Mobile Number</label>
-        <input type="tel"
-               name="mobilenumber"
-               pattern="[0-9]{10}"
-               maxlength="10"
-               placeholder="Enter 10-digit mobile number"
-               required>
+        <input
+            type="tel"
+            name="mobilenumber"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            placeholder="Enter 10-digit mobile number"
+            required>
 
         <label>Your Question</label>
-        <textarea name="question"
-                  rows="5"
-                  placeholder="Type your question here..."
-                  required></textarea>
+        <textarea
+            name="question"
+            rows="5"
+            placeholder="Type your question here..."
+            required></textarea>
 
         <button type="submit">Submit Enquiry</button>
 
