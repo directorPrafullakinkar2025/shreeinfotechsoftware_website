@@ -19,30 +19,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if (curl_errno($ch)) {
+
         echo "cURL Error: " . curl_error($ch);
+
     } else {
 
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // Debug
+        echo "<pre>";
+        echo "HTTP Code: " . $httpCode . "\n";
+        echo "Response:\n";
+        echo $response;
+        echo "</pre>";
 
         $result = json_decode($response, true);
 
-if ($httpCode == 200 && isset($result['success']) && $result['success']) {
-    echo "<script>alert('".$result['message']."');</script>";
-} else {
-    echo "<script>alert('Submission failed.');</script>";
-}
+        if ($httpCode == 200 && !empty($result['success'])) {
+            echo "<script>alert('".$result['message']."');</script>";
+        } else {
+            echo "<script>alert('Submission failed');</script>";
+        }
     }
 
     curl_close($ch);
-
-}   // <-- This closing brace was missing
-echo "<pre>";
-echo "HTTP Code: ".$httpCode."\n";
-echo "Response:\n";
-echo $response;
-echo "</pre>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +127,7 @@ echo "</pre>";
 
     <h2>Programming Course Enquiry</h2>
 
-    <form action="" method="POST">
+    <form action="https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry" method="POST">
 
         <label>Full Name</label>
         <input type="text" name="name" placeholder="Enter your name" required>
@@ -137,15 +139,14 @@ echo "</pre>";
             <option>Java</option>
             <option>C Programming</option>
             <option>C++</option>
-            <option>C#</option>
             <option>JavaScript</option>
-            <option>PHP</option>
-            <option>React JS</option>
-            <option>Node JS</option>
-            <option>Angular</option>
-            <option>Data Science</option>
-            <option>Machine Learning</option>
-            <option>Full Stack Development</option>
+            <option>Mongo DB</option>
+            <option>React.JS</option>
+            <option>Node.JS</option>
+            <option>Express.js</option>
+            <option>DSA</option>
+            <option>HTML & CSS</option>
+            <option>Full Stack Web Development</option>
         </select>
 
         <label>Mobile Number</label>
