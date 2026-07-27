@@ -230,9 +230,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php echo $message; ?>
         </p>
 
-        <button onclick="downloadReceipt()">
+        <!-- <button onclick="downloadReceipt()">
             ⬇ Download Details
-        </button>
+        </button> -->
 
         <button onclick="openWhatsApp()">
             💬 Open WhatsApp
