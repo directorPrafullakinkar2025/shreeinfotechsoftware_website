@@ -1,14 +1,16 @@
 <?php
+$success = false;
+$message = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-$data = [
-    "name" => $_POST["name"],
-    "course" => $_POST["course"],
-    "trainingmode" => $_POST["trainingmode"],
-    "mobilenumber" => $_POST["mobilenumber"],
-    "question" => $_POST["question"]
-];
+    $data = [
+        "name" => $_POST["name"],
+        "course" => $_POST["course"],
+        "trainingmode" => $_POST["trainingmode"],
+        "mobilenumber" => $_POST["mobilenumber"],
+        "question" => $_POST["question"]
+    ];
 
     $ch = curl_init("https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry");
 
@@ -22,30 +24,20 @@ $data = [
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-   if (curl_errno($ch)) {
+    if (!curl_errno($ch) && $httpCode == 200) {
 
-    echo "cURL Error: " . curl_error($ch);
+        $success = true;
 
-} else {
-
-    if ($httpCode == 200) {
-
-        $message = nl2br(htmlspecialchars($response));
-
-        // Show your success page or modal here
-        echo "...";
-
-        exit;
+        $message = nl2br(htmlspecialchars(trim($response)));
 
     } else {
 
-        echo "<script>alert('Submission Failed. Please try again.');</script>";
+        $message = "Submission Failed. Please try again.";
 
     }
 
+    curl_close($ch);
 }
-
-curl_close($ch);
 ?>
 
 <!DOCTYPE html>
@@ -133,10 +125,18 @@ curl_close($ch);
 
 .modal-content{
     background:#fff;
-    width:400px;
-    padding:25px;
+    width:430px;
+    padding:20px;
     border-radius:10px;
-    text-align:center;
+    text-align:left;
+}
+
+#successMessage{
+    margin-top:15px;
+    line-height:1.25;
+    font-size:14px;
+    white-space:normal;
+    word-wrap:break-word;
 }
 
 .modal button{
@@ -213,10 +213,7 @@ curl_close($ch);
     <div class="modal-content">
         <h2>✅ Enquiry Submitted</h2>
 
-        <p id="successMessage">
-            Thank you! Your enquiry has been submitted successfully.<br><br>
-            📲 A WhatsApp message has been sent to your registered mobile number.
-        </p>
+<p id="successMessage"><?php echo $message; ?></p>
 
         <button onclick="downloadReceipt()">
             ⬇ Download Details
@@ -249,6 +246,28 @@ function downloadReceipt(){
 
 }
 
+</script>
+<?php if($success){ ?>
+<script>
+window.onload=function(){
+    showSuccess();
+};
+</script>
+<?php } ?>
+
+<script>
+function showSuccess(){
+    document.getElementById("successModal").style.display="flex";
+}
+
+function closeModal(){
+    document.getElementById("successModal").style.display="none";
+    window.location.href = window.location.pathname;
+}
+
+function downloadReceipt(){
+    window.open("download_receipt.php","_blank");
+}
 </script>
 </body>
 </html>
