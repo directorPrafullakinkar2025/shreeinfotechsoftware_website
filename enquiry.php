@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programming Course Enquiry Form</title>
-
+  <link rel="stylesheet" href="style.css">
     <style>
         *{
             margin:0;
@@ -147,7 +147,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
+    <nav>
+      <div class="logo"><h3>Shreeinfotech Software Development Pvt. Ltd.</h3>
+        <p class="logo-p">Innovating for Agriculture & Education</p>
+      </div>
+       <button class="menu-toggle">☰</button>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#courses">All Courses</a></li>
+      <li><a href="enquiry.php">Enquiry</a></li>
+      <li><a href="#Project_info">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="exam_html_login.html">Exam login</a></li>
 
+    </ul>
+  </nav>
 <div class="container">
 
     <h2>Programming Course Enquiry</h2>
@@ -213,10 +227,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="modal-content">
         <h2>✅ Enquiry Submitted</h2>
 
-<p id="successMessage"><?php echo $message; ?></p>
+        <p id="successMessage">
+            <?php echo $message; ?>
+        </p>
 
         <button onclick="downloadReceipt()">
             ⬇ Download Details
+        </button>
+
+        <button onclick="openWhatsApp()">
+            💬 Open WhatsApp
         </button>
 
         <button onclick="closeModal()">
@@ -227,23 +247,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script>
 
 function showSuccess(){
-
     document.getElementById("successModal").style.display="flex";
-
 }
 
 function closeModal(){
-
     document.getElementById("successModal").style.display="none";
-
     location.reload();
-
 }
 
 function downloadReceipt(){
-
     window.open("download_receipt.php","_blank");
+}
 
+function openWhatsApp(){
+    window.open("https://wa.me/919579746773","_blank");
 }
 
 </script>
