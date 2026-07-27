@@ -85,7 +85,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($wa_message));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($ch);
-curl_close($ch);
+
 echo "<pre>";
 print_r($response);
 echo "</pre>";
