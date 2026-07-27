@@ -154,9 +154,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        <button class="menu-toggle">☰</button>
     <ul class="nav-links">
       <li><a href="index.php">Home</a></li>
-      <li><a href="courses.php">All Courses</a></li>
-      <li><a href="about.php">About</a></li>
-      <li><a href="contact.php">Contact</a></li>
+      <li><a href="#courses">All Courses</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
       <li><a href="exam_html_login.html">Exam login</a></li>
 
     </ul>
