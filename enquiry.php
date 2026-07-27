@@ -28,7 +28,12 @@ $data = [
 
 } else {
 
-    if ($httpCode == 200) {      
+    if ($httpCode == 200) {
+
+        $message = nl2br(htmlspecialchars($response));
+
+        // Show your success page or modal here
+        echo "...";
 
         exit;
 
@@ -40,8 +45,7 @@ $data = [
 
 }
 
-    curl_close($ch);
-}
+curl_close($ch);
 ?>
 
 <!DOCTYPE html>
