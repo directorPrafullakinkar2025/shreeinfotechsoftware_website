@@ -20,6 +20,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
 // Collect form data
 $first_name = $_POST['first_name'];
 $last_name = $_POST['last_name'];
