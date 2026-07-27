@@ -24,7 +24,7 @@ $data = [
 
    if (curl_errno($ch)) {
 
-    // echo "cURL Error: " . curl_error($ch);
+    echo "cURL Error: " . curl_error($ch);
 
 } else {
 
