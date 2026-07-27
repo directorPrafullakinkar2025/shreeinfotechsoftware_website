@@ -19,7 +19,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-echo "✅ Connected successfully<br>";
+
 // Collect form data
 $first_name = $_POST['first_name'];
 $last_name = $_POST['last_name'];
