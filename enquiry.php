@@ -149,6 +149,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <option>Full Stack Web Development</option>
         </select>
 
+        
+        <label>Select Training Mode</label>
+        <select name="trainingmode" required>
+            <option value="">-- Select Training Mode --</option>
+            <option>Online</option>
+            <option>Offline</option>
+            <option>Hybrid</option>
+        </select>
+
         <label>Mobile Number</label>
         <input
             type="tel"
