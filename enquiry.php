@@ -22,147 +22,25 @@ $data = [
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    if (curl_errno($ch)) {
+   if (curl_errno($ch)) {
 
-        echo "cURL Error: " . curl_error($ch);
+    echo "cURL Error: " . curl_error($ch);
+
+} else {
+
+    if ($httpCode == 200) {      
+
+        exit;
 
     } else {
 
-        // Debug
-        echo "<pre>";
-        echo "HTTP Code: " . $httpCode . "\n";
-        echo "Response:\n";
-        echo $response;
-        echo "</pre>";
+        echo "<script>alert('Submission Failed. Please try again.');</script>";
 
-        if ($httpCode == 200) {
-
-    $message = nl2br(htmlspecialchars($response));
-
-    echo '
-    <!DOCTYPE html>
-    <html>
-    <head>
-
-    <title>Enquiry Submitted</title>
-
-    <style>
-
-    body{
-        font-family:Arial;
-        background:#f5f7fa;
-        margin:0;
-        padding:40px;
     }
-
-    .success-box{
-        max-width:750px;
-        margin:auto;
-        background:#fff;
-        padding:35px;
-        border-radius:10px;
-        box-shadow:0 0 20px rgba(0,0,0,.15);
-    }
-
-    h2{
-        color:#198754;
-    }
-
-    .msg{
-        background:#f8f9fa;
-        border-left:5px solid #198754;
-        padding:20px;
-        margin-top:20px;
-        line-height:28px;
-        white-space:pre-wrap;
-    }
-
-    .buttons{
-        margin-top:30px;
-    }
-
-    .btn{
-        display:inline-block;
-        padding:12px 20px;
-        background:#0d6efd;
-        color:#fff;
-        text-decoration:none;
-        border-radius:6px;
-        margin-right:10px;
-    }
-
-    .btn-green{
-        background:#198754;
-    }
-
-    .note{
-        margin-top:20px;
-        color:#666;
-    }
-
-    </style>
-
-    </head>
-
-    <body>
-
-    <div class="success-box">
-
-    <h2>✅ Thank You!</h2>
-
-    <p>Your enquiry has been submitted successfully.</p>
-
-    <div class="msg">'.$message.'</div>
-
-    <p class="note">
-    📲 A WhatsApp message has also been sent to your registered mobile number.
-    </p>
-
-    <div class="buttons">
-
-    <a class="btn" href="index.php">
-    🏠 Back to Home
-    </a>
-
-    <a class="btn btn-green"
-    href="https://wa.me/917057445099"
-    target="_blank">
-    💬 Chat on WhatsApp
-    </a>
-
-    </div>
-
-    </div>
-
-    <script>
-
-    setTimeout(function(){
-
-        window.location="index.php";
-
-    },15000);
-
-    </script>
-
-    </body>
-    </html>';
-
-    exit;
-
-}else{
-
-    echo "<script>alert('Submission Failed. Please try again.');</script>";
 
 }
 
-        if ($httpCode == 200 && !empty($result['success'])) {
-            echo "<script>alert('".$result['message']."');</script>";
-        } else {
-            echo "<script>alert('Submission failed');</script>";
-        }
-    }
-
-
+    curl_close($ch);
 }
 ?>
 
@@ -237,6 +115,30 @@ $data = [
         button:hover{
             background:#163b5c;
         }
+        .modal{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:#fff;
+    width:400px;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.modal button{
+    margin:8px;
+    padding:10px 20px;
+}
     </style>
 </head>
 
@@ -299,5 +201,50 @@ $data = [
 
 </div>
 
+...
+</div> <!-- End of your .container -->
+
+<!-- Success Modal -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <h2>✅ Enquiry Submitted</h2>
+
+        <p id="successMessage">
+            Thank you! Your enquiry has been submitted successfully.<br><br>
+            📲 A WhatsApp message has been sent to your registered mobile number.
+        </p>
+
+        <button onclick="downloadReceipt()">
+            ⬇ Download Details
+        </button>
+
+        <button onclick="closeModal()">
+            Close
+        </button>
+    </div>
+</div>
+<script>
+
+function showSuccess(){
+
+    document.getElementById("successModal").style.display="flex";
+
+}
+
+function closeModal(){
+
+    document.getElementById("successModal").style.display="none";
+
+    location.reload();
+
+}
+
+function downloadReceipt(){
+
+    window.open("download_receipt.php","_blank");
+
+}
+
+</script>
 </body>
 </html>
