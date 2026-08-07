@@ -5,8 +5,8 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $data = [
-        "name" => $_POST["name"],
-        "course" => $_POST["course"],
+        "name" => $_POST["student_name"],
+        "course" => $_POST["course_name"],
         "trainingmode" => $_POST["trainingmode"],
         "mobilenumber" => $_POST["mobilenumber"],
         "question" => $_POST["question"]
@@ -20,23 +20,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         "Content-Type: application/json"
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+echo "<pre>";
+echo "HTTP Code : " . $httpCode . "\n";
+echo "Response : " . $response . "\n";
 
-    if (!curl_errno($ch) && $httpCode == 200) {
+if (curl_errno($ch)) {
+    echo "cURL Error : " . curl_error($ch) . "\n";
+}
 
-        $success = true;
+echo "</pre>";
 
-        $message = nl2br(htmlspecialchars(trim($response)));
+curl_init($ch);
+exit;
 
-    } else {
 
-        $message = "Submission Failed. Please try again.";
 
-    }
-
-    curl_close($ch);
 }
 ?>
 
@@ -168,10 +169,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form action="" method="POST">
 
         <label>Full Name</label>
-        <input type="text" name="name" placeholder="Enter your name" required>
+        <input type="text" name="student_name" placeholder="Enter your name" required>
 
         <label>Select Course</label>
-        <select name="course" required>
+        <select name="course_name" required>
             <option value="">-- Select Course --</option>
             <option>Python</option>
             <option>Java</option>
