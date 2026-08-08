@@ -270,71 +270,50 @@ function downloadReceipt(){
 }
 </script>
 <script>
-document.getElementById("enquiryForm").addEventListener("submit", async function (e) {
-
-    e.preventDefault();
-
-    const form = e.target;
-    const button = form.querySelector("button[type='submit']");
-
-    button.disabled = true;
-    button.innerText = "Sending...";
-
-    const formData = new FormData(form);
-
-    const data = {
-        name: formData.get("student_name"),
-        course: formData.get("course_name"),
-        mobilenumber: formData.get("mobilenumber"),
-        trainingmode: formData.get("trainingmode"),
-        question: formData.get("question")
-    };
-
-    try {
-
-        const response = await fetch(
-            "YOUR_N8N_PRODUCTION_WEBHOOK_URL",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(data)
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Webhook request failed");
+try {
+    const response = await fetch(
+        "YOUR_N8N_PRODUCTION_WEBHOOK_URL",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
         }
+    );
 
-        const result = await response.json().catch(() => ({}));
+    const responseText = await response.text();
 
-        document.getElementById("successMessage").innerText =
-            "Thank you " + data.name +
-            ". Your enquiry has been received successfully.";
+    console.log("HTTP Status:", response.status);
+    console.log("Response:", responseText);
 
-        showSuccess();
-
-        form.reset();
-
-    } catch (error) {
-
-        console.error("Webhook Error:", error);
-
-        alert(
-            "Sorry, your enquiry could not be submitted. Please try again."
+    if (!response.ok) {
+        throw new Error(
+            "HTTP " + response.status + ": " + responseText
         );
-
-    } finally {
-
-        button.disabled = false;
-        button.innerText = "Submit Enquiry";
-
     }
 
-});
+    document.getElementById("successMessage").innerText =
+        "Thank you " + data.name +
+        ". Your enquiry has been received successfully.";
+
+    showSuccess();
+    form.reset();
+
+} catch (error) {
+
+    console.error("Webhook Error:", error);
+
+    alert(
+        "Webhook Error:\n\n" + error.message
+    );
+
+} finally {
+
+    button.disabled = false;
+    button.innerText = "Submit Enquiry";
+
+}
 </script>
 </body>
 </html>
