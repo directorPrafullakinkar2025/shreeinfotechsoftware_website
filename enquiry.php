@@ -148,6 +148,7 @@ curl_exec($ch);
 <div class="info-container">
 
     <h2>Programming Course Enquiry</h2>
+
 <form id="enquiryForm">
 
     <!-- Full Name -->
@@ -308,50 +309,98 @@ function downloadReceipt(){
 }
 </script>
 <script>
-try {
-    const response = await fetch(
-        "https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }
-    );
 
-    const responseText = await response.text();
+document.getElementById("enquiryForm").addEventListener("submit", async function(e) {
 
-    console.log("HTTP Status:", response.status);
-    console.log("Response:", responseText);
+    e.preventDefault();
 
-    if (!response.ok) {
-        throw new Error(
-            "HTTP " + response.status + ": " + responseText
+    const form = this;
+    const button = document.getElementById("submitBtn");
+
+    button.disabled = true;
+    button.innerText = "Sending...";
+
+    const formData = new FormData(form);
+
+    // Data sent to n8n Webhook1
+    const data = {
+        student_name: formData.get("student_name"),
+        course_name: formData.get("course_name"),
+        mobilenumber: formData.get("mobilenumber"),
+        trainingmode: formData.get("trainingmode"),
+        question: formData.get("question")
+    };
+
+    console.log("Data being sent to n8n:", data);
+
+    try {
+
+        const response = await fetch(
+            "https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         );
+
+        const responseText = await response.text();
+
+        console.log("HTTP Status:", response.status);
+        console.log("Response:", responseText);
+
+        if (!response.ok) {
+            throw new Error(
+                "HTTP " + response.status + ": " + responseText
+            );
+        }
+
+        document.getElementById("successMessage").innerText =
+            "Thank you " + data.student_name +
+            ". Your enquiry has been received successfully.";
+
+        showSuccess();
+
+        form.reset();
+
+    } catch (error) {
+
+        console.error("Webhook Error:", error);
+
+        alert(
+            "Webhook Error:\n\n" + error.message
+        );
+
+    } finally {
+
+        button.disabled = false;
+        button.innerText = "Submit Enquiry";
+
     }
 
-    document.getElementById("successMessage").innerText =
-        "Thank you " + data.name +
-        ". Your enquiry has been received successfully.";
+});
 
-    showSuccess();
-    form.reset();
 
-} catch (error) {
-
-    console.error("Webhook Error:", error);
-
-    alert(
-        "Webhook Error:\n\n" + error.message
-    );
-
-} finally {
-
-    button.disabled = false;
-    button.innerText = "Submit Enquiry";
-
+function showSuccess() {
+    document.getElementById("successModal").style.display = "flex";
 }
+
+
+function closeModal() {
+    document.getElementById("successModal").style.display = "none";
+    location.reload();
+}
+
+
+function openWhatsApp() {
+    window.open(
+        "https://wa.me/919579746773",
+        "_blank"
+    );
+}
+
 </script>
 </body>
 </html>
