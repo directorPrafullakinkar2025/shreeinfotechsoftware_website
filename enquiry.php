@@ -330,7 +330,13 @@ document.getElementById("enquiryForm").addEventListener("submit", async function
         trainingmode: formData.get("trainingmode"),
         question: formData.get("question")
     };
-
+console.log("FORM:", form);
+console.log("student_name:", formData.get("student_name"));
+console.log("course_name:", formData.get("course_name"));
+console.log("trainingmode:", formData.get("trainingmode"));
+console.log("mobilenumber:", formData.get("mobilenumber"));
+console.log("question:", formData.get("question"));
+console.log("DATA:", data);
     console.log("Data being sent to n8n:", data);
 
     try {
