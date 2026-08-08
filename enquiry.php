@@ -148,58 +148,96 @@ curl_exec($ch);
 <div class="info-container">
 
     <h2>Programming Course Enquiry</h2>
+<form id="enquiryForm">
 
-    <form id="enquiryForm">
+    <!-- Full Name -->
+    <label for="student_name">Full Name</label>
+    <input
+        type="text"
+        id="student_name"
+        name="student_name"
+        placeholder="Enter your full name"
+        minlength="2"
+        maxlength="100"
+        autocomplete="name"
+        required
+    >
 
-        <label>Full Name</label>
-        <input type="text" name="student_name" placeholder="Enter your name" required>
+    <!-- Course -->
+    <label for="course_name">Select Course</label>
+    <select
+        id="course_name"
+        name="course_name"
+        required
+    >
+        <option value="" selected disabled>-- Select Course --</option>
 
-        <label>Select Course</label>
-        <select name="course_name" required>
-            <option value="">-- Select Course --</option>
-            <option>Python</option>
-            <option>Java</option>
-            <option>C Programming</option>
-            <option>C++</option>
-            <option>JavaScript</option>
-            <option>Mongo DB</option>
-            <option>React.JS</option>
-            <option>Node.JS</option>
-            <option>Express.js</option>
-            <option>DSA</option>
-            <option>HTML & CSS</option>
-            <option>Full Stack Web Development</option>
-        </select>
+        <option value="Python">Python</option>
+        <option value="Java">Java</option>
+        <option value="C Programming">C Programming</option>
+        <option value="C++">C++</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Mongo DB">Mongo DB</option>
+        <option value="React.JS">React.JS</option>
+        <option value="Node.JS">Node.JS</option>
+        <option value="Express.js">Express.js</option>
+        <option value="DSA">DSA</option>
+        <option value="HTML & CSS">HTML & CSS</option>
+        <option value="Full Stack Web Development">
+            Full Stack Web Development
+        </option>
+    </select>
 
-        
-        <label>Select Training Mode</label>
-        <select name="trainingmode" required>
-            <option value="">-- Select Training Mode --</option>
-            <option>Online</option>
-            <option>Offline</option>
-            <option>Hybrid</option>
-        </select>
+    <!-- Training Mode -->
+    <label for="trainingmode">Select Training Mode</label>
+    <select
+        id="trainingmode"
+        name="trainingmode"
+        required
+    >
+        <option value="" selected disabled>
+            -- Select Training Mode --
+        </option>
 
-        <label>Mobile Number</label>
-        <input
-            type="tel"
-            name="mobilenumber"
-            pattern="[0-9]{10}"
-            maxlength="10"
-            placeholder="Enter 10-digit mobile number"
-            required>
+        <option value="Online">Online Live Training</option>
+        <option value="Offline">Offline Classroom Training</option>
+        <option value="Hybrid">Hybrid Training</option>
+    </select>
 
-        <label>Your Question</label>
-        <textarea
-            name="question"
-            rows="5"
-            placeholder="Type your question here..."
-            required></textarea>
+    <!-- Mobile Number -->
+    <label for="mobilenumber">Mobile Number</label>
+    <input
+        type="tel"
+        id="mobilenumber"
+        name="mobilenumber"
+        pattern="[0-9]{10}"
+        minlength="10"
+        maxlength="10"
+        inputmode="numeric"
+        autocomplete="tel"
+        placeholder="Enter 10-digit mobile number"
+        title="Please enter a valid 10-digit mobile number"
+        required
+    >
 
-        <button type="submit">Submit Enquiry</button>
+    <!-- Question -->
+    <label for="question">Your Question</label>
+    <textarea
+        id="question"
+        name="question"
+        rows="5"
+        minlength="3"
+        maxlength="1000"
+        placeholder="Type your question here..."
+        required
+    ></textarea>
 
-    </form>
+    <!-- Submit -->
+    <button type="submit" id="submitBtn">
+        Submit Enquiry
+    </button>
 
+</form>
 </div>
 
 ...
