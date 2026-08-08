@@ -149,7 +149,7 @@ curl_exec($ch);
 
     <h2>Programming Course Enquiry</h2>
 
-    <form action="" method="POST">
+    <form id="enquiryForm">
 
         <label>Full Name</label>
         <input type="text" name="student_name" placeholder="Enter your name" required>
@@ -268,6 +268,73 @@ function closeModal(){
 function downloadReceipt(){
     window.open("download_receipt.php","_blank");
 }
+</script>
+<script>
+document.getElementById("enquiryForm").addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const form = e.target;
+    const button = form.querySelector("button[type='submit']");
+
+    button.disabled = true;
+    button.innerText = "Sending...";
+
+    const formData = new FormData(form);
+
+    const data = {
+        name: formData.get("student_name"),
+        course: formData.get("course_name"),
+        mobilenumber: formData.get("mobilenumber"),
+        trainingmode: formData.get("trainingmode"),
+        question: formData.get("question")
+    };
+
+    try {
+
+        const response = await fetch(
+            "YOUR_N8N_PRODUCTION_WEBHOOK_URL",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(data)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Webhook request failed");
+        }
+
+        const result = await response.json().catch(() => ({}));
+
+        document.getElementById("successMessage").innerText =
+            "Thank you " + data.name +
+            ". Your enquiry has been received successfully.";
+
+        showSuccess();
+
+        form.reset();
+
+    } catch (error) {
+
+        console.error("Webhook Error:", error);
+
+        alert(
+            "Sorry, your enquiry could not be submitted. Please try again."
+        );
+
+    } finally {
+
+        button.disabled = false;
+        button.innerText = "Submit Enquiry";
+
+    }
+
+});
 </script>
 </body>
 </html>
