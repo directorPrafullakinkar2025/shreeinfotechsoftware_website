@@ -5,7 +5,7 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $data = [
-    "student_name" => $_POST['name'],
+    "student_name" => $_POST['student_name'],
     "mobilenumber" => $_POST['mobilenumber'],
     "course_name" => $_POST['course_name'],
     "question" => $_POST['question']
