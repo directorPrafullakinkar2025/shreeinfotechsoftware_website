@@ -4,38 +4,20 @@ $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $data = [
-        "name" => $_POST["student_name"],
-        "course" => $_POST["course_name"],
-        "trainingmode" => $_POST["trainingmode"],
-        "mobilenumber" => $_POST["mobilenumber"],
-        "question" => $_POST["question"]
-    ];
-
-    $ch = curl_init("https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry");
-
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Content-Type: application/json"
-    ]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-echo "<pre>";
-echo "HTTP Code : " . $httpCode . "\n";
-echo "Response : " . $response . "\n";
-
-if (curl_errno($ch)) {
-    echo "cURL Error : " . curl_error($ch) . "\n";
-}
-
-echo "</pre>";
-
-curl_init($ch);
-exit;
-
+$data = [
+    "student_name" => $_POST['name'],
+    "mobilenumber" => $_POST['mobilenumber'],
+    "course_name" => $_POST['course_name'],
+    "question" => $_POST['question']
+];
+$webhook="https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry";
+$ch = curl_init($webhook);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "Content-Type: application/json"
+]);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_exec($ch);
 
 
 }
