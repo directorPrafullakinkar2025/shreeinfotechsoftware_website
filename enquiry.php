@@ -10,8 +10,8 @@ $data = [
     "course_name" => $_POST['course_name'],
     "question" => $_POST['question']
 ];
-// $webhook="https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry";
-$webhook="https://shreeinfotechsoftware.app.n8n.cloud/webhook-test/website-enquiry";
+$webhook="https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry";
+
 $ch = curl_init($webhook);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
