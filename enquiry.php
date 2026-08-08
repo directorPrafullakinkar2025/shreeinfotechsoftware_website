@@ -177,26 +177,49 @@ curl_exec($ch);
     <h2>Programming Course Enquiry</h2>
 
 <form id="enquiryForm">
+<!-- Full Name -->
+<label for="student_name">Full Name</label>
+<input
+    type="text"
+    id="student_name"
+    name="student_name"
+    placeholder="Enter your full name"
+    minlength="2"
+    maxlength="100"
+    autocomplete="name"
+    required
+>
 
-    <!-- Full Name -->
-    <label for="student_name">Full Name</label>
-    <input
-        type="text"
-        id="student_name"
-        name="student_name"
-        placeholder="Enter your full name"
-        minlength="2"
-        maxlength="100"
-        autocomplete="name"
-        required
-    >
+<!-- Enquiry Type -->
+<label for="enquiry_type">What are you enquiring about?</label>
+<select
+    id="enquiry_type"
+    name="enquiry_type"
+    required
+>
+    <option value="" selected disabled>-- Select Enquiry Type --</option>
+
+    <option value="Course Enquiry">Course / Training</option>
+    <option value="Software Project">Software / Project Development</option>
+    <option value="Website Development">Website Development</option>
+    <option value="Mobile App Development">Mobile App Development</option>
+    <option value="AI & Automation">AI / Automation</option>
+    <option value="Internship">Internship</option>
+    <option value="Other">Other Enquiry</option>
+</select>
+
+
+<!-- ========================= -->
+<!-- COURSE SECTION -->
+<!-- ========================= -->
+
+<div id="courseSection" style="display:none;">
 
     <!-- Course -->
     <label for="course_name">Select Course</label>
     <select
         id="course_name"
         name="course_name"
-        required
     >
         <option value="" selected disabled>-- Select Course --</option>
 
@@ -216,12 +239,12 @@ curl_exec($ch);
         </option>
     </select>
 
+
     <!-- Training Mode -->
     <label for="trainingmode">Select Training Mode</label>
     <select
         id="trainingmode"
         name="trainingmode"
-        required
     >
         <option value="" selected disabled>
             -- Select Training Mode --
@@ -232,38 +255,120 @@ curl_exec($ch);
         <option value="Hybrid">Hybrid Training</option>
     </select>
 
-    <!-- Mobile Number -->
-    <label for="mobilenumber">Mobile Number</label>
-    <input
-        type="tel"
-        id="mobilenumber"
-        name="mobilenumber"
-        pattern="[0-9]{10}"
-        minlength="10"
-        maxlength="10"
-        inputmode="numeric"
-        autocomplete="tel"
-        placeholder="Enter 10-digit mobile number"
-        title="Please enter a valid 10-digit mobile number"
-        required
+</div>
+
+
+<!-- ========================= -->
+<!-- PROJECT SECTION -->
+<!-- ========================= -->
+
+<div id="projectSection" style="display:none;">
+
+    <label for="project_type">Project Type</label>
+
+    <select
+        id="project_type"
+        name="project_type"
     >
+        <option value="" selected disabled>
+            -- Select Project Type --
+        </option>
 
-    <!-- Question -->
-    <label for="question">Your Question</label>
-    <textarea
-        id="question"
-        name="question"
-        rows="5"
-        minlength="3"
-        maxlength="1000"
-        placeholder="Type your question here..."
-        required
-    ></textarea>
+        <option value="Custom Software">Custom Software</option>
+        <option value="ERP / Management System">
+            ERP / Management System
+        </option>
+        <option value="E-Commerce">E-Commerce</option>
+        <option value="Web Application">Web Application</option>
+        <option value="Other">Other</option>
+    </select>
 
-    <!-- Submit -->
-    <button type="submit" id="submitBtn">
-        Submit Enquiry
-    </button>
+</div>
+
+
+<!-- ========================= -->
+<!-- MOBILE APP SECTION -->
+<!-- ========================= -->
+
+<div id="mobileSection" style="display:none;">
+
+    <label for="app_type">Application Type</label>
+
+    <select
+        id="app_type"
+        name="app_type"
+    >
+        <option value="" selected disabled>
+            -- Select Application Type --
+        </option>
+
+        <option value="Android App">Android App</option>
+        <option value="iOS App">iOS App</option>
+        <option value="Android & iOS">
+            Android & iOS
+        </option>
+    </select>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- GENERAL REQUIREMENTS -->
+<!-- ========================= -->
+
+<label for="requirements">Requirements / Details</label>
+
+<textarea
+    id="requirements"
+    name="requirements"
+    rows="5"
+    maxlength="2000"
+    placeholder="Describe your requirement..."
+></textarea>
+
+
+<!-- ========================= -->
+<!-- MOBILE NUMBER -->
+<!-- ========================= -->
+
+<label for="mobilenumber">Mobile Number</label>
+
+<input
+    type="tel"
+    id="mobilenumber"
+    name="mobilenumber"
+    pattern="[0-9]{10}"
+    minlength="10"
+    maxlength="10"
+    inputmode="numeric"
+    autocomplete="tel"
+    placeholder="Enter 10-digit mobile number"
+    title="Please enter a valid 10-digit mobile number"
+    required
+>
+
+
+<!-- ========================= -->
+<!-- QUESTION -->
+<!-- ========================= -->
+
+<label for="question">Your Question</label>
+
+<textarea
+    id="question"
+    name="question"
+    rows="5"
+    minlength="3"
+    maxlength="1000"
+    placeholder="Type your question here..."
+    required
+></textarea>
+
+
+<!-- Submit -->
+<button type="submit" id="submitBtn">
+    Submit Enquiry
+</button>
 
 </form>
 </div>
@@ -451,6 +556,64 @@ function openWhatsApp() {
     );
 }
 
+</script>
+<script>
+const enquiryType = document.getElementById("enquiry_type");
+
+const courseSection = document.getElementById("courseSection");
+const projectSection = document.getElementById("projectSection");
+const mobileSection = document.getElementById("mobileSection");
+
+const courseName = document.getElementById("course_name");
+const trainingMode = document.getElementById("trainingmode");
+const projectType = document.getElementById("project_type");
+const appType = document.getElementById("app_type");
+
+enquiryType.addEventListener("change", function () {
+
+    // Hide everything
+    courseSection.style.display = "none";
+    projectSection.style.display = "none";
+    mobileSection.style.display = "none";
+
+    // Remove required
+    courseName.required = false;
+    trainingMode.required = false;
+    projectType.required = false;
+    appType.required = false;
+
+
+    // COURSE
+    if (this.value === "Course Enquiry") {
+
+        courseSection.style.display = "block";
+
+        courseName.required = true;
+        trainingMode.required = true;
+    }
+
+
+    // SOFTWARE PROJECT
+    else if (
+        this.value === "Software Project" ||
+        this.value === "Website Development"
+    ) {
+
+        projectSection.style.display = "block";
+
+        projectType.required = true;
+    }
+
+
+    // MOBILE APP
+    else if (this.value === "Mobile App Development") {
+
+        mobileSection.style.display = "block";
+
+        appType.required = true;
+    }
+
+});
 </script>
 </body>
 </html>
