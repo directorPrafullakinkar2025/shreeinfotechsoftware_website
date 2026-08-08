@@ -95,37 +95,64 @@ curl_exec($ch);
         button:hover{
             background:#163b5c;
         }
-        .modal{
-    display:none;
-    position:fixed;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.5);
-    justify-content:center;
-    align-items:center;
+        .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.65);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
 }
 
-.modal-content{
-    background:#fff;
-    width:430px;
-    padding:20px;
-    border-radius:10px;
-    text-align:left;
+.modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    padding: 28px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    animation: popup .25s ease;
 }
 
-#successMessage{
-    margin-top:15px;
-    line-height:1.25;
-    font-size:14px;
-    white-space:normal;
-    word-wrap:break-word;
+.modal-content h2 {
+    color: #1f4e79;
+    margin-bottom: 18px;
 }
 
-.modal button{
-    margin:8px;
-    padding:10px 20px;
+#successMessage {
+    background: #f5f8fc;
+    border: 1px solid #e1e7ef;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 15px 0 20px;
+    line-height: 1.6;
+    font-size: 15px;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.modal button {
+    width: auto;
+    margin: 5px;
+    padding: 11px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+        transform: scale(.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
     </style>
 </head>
@@ -247,7 +274,7 @@ curl_exec($ch);
 <!-- Success Modal -->
 <div id="successModal" class="modal">
     <div class="modal-content">
-        <h2>✅ Enquiry Submitted</h2>
+        <h2>🤖 AI Response</h2>
 
         <p id="successMessage">
             <?php echo $message; ?>
@@ -308,6 +335,9 @@ function downloadReceipt(){
     window.open("download_receipt.php","_blank");
 }
 </script>
+
+
+
 <script>
 
 document.getElementById("enquiryForm").addEventListener("submit", async function(e) {
@@ -363,11 +393,25 @@ console.log("DATA:", data);
             );
         }
 
-        document.getElementById("successMessage").innerText =
-            "Thank you " + data.student_name +
-            ". Your enquiry has been received successfully.";
+let aiResponse = responseText;
 
-        showSuccess();
+try {
+    const jsonResponse = JSON.parse(responseText);
+
+    aiResponse =
+        jsonResponse.response ||
+        jsonResponse.output ||
+        jsonResponse.message ||
+        jsonResponse.text ||
+        responseText;
+
+} catch (e) {
+    // n8n returned plain text
+}
+
+document.getElementById("successMessage").innerText = aiResponse;
+
+showSuccess();
 
         form.reset();
 
