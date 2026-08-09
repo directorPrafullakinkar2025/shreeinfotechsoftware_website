@@ -316,15 +316,19 @@ curl_exec($ch);
 <!-- GENERAL REQUIREMENTS -->
 <!-- ========================= -->
 
-<label for="requirements">Requirements / Details</label>
+<div id="requirementsSection">
 
-<textarea
-    id="requirements"
-    name="requirements"
-    rows="5"
-    maxlength="2000"
-    placeholder="Describe your requirement..."
-></textarea>
+    <label for="requirements">Requirements / Details</label>
+
+    <textarea
+        id="requirements"
+        name="requirements"
+        rows="5"
+        maxlength="2000"
+        placeholder="Describe your requirement..."
+    ></textarea>
+
+</div>
 
 
 <!-- ========================= -->
@@ -567,33 +571,41 @@ const mobileSection = document.getElementById("mobileSection");
 const courseName = document.getElementById("course_name");
 const trainingMode = document.getElementById("trainingmode");
 const projectType = document.getElementById("project_type");
+const requirementsSection = document.getElementById("requirementsSection");
+const requirements = document.getElementById("requirements");
 const appType = document.getElementById("app_type");
 
 enquiryType.addEventListener("change", function () {
 
-    // Hide everything
+    // Hide all sections
     courseSection.style.display = "none";
     projectSection.style.display = "none";
     mobileSection.style.display = "none";
 
-    // Remove required
+    // Show Requirements by default
+    requirementsSection.style.display = "block";
+
+    // Remove required attributes
     courseName.required = false;
     trainingMode.required = false;
     projectType.required = false;
     appType.required = false;
+    requirements.required = false;
 
-
-    // COURSE
+    // COURSE / TRAINING
     if (this.value === "Course Enquiry") {
 
         courseSection.style.display = "block";
 
         courseName.required = true;
         trainingMode.required = true;
+
+        // Requirements NOT needed for courses
+        requirementsSection.style.display = "none";
+        requirements.value = "";
     }
 
-
-    // SOFTWARE PROJECT
+    // SOFTWARE / WEBSITE
     else if (
         this.value === "Software Project" ||
         this.value === "Website Development"
@@ -602,8 +614,10 @@ enquiryType.addEventListener("change", function () {
         projectSection.style.display = "block";
 
         projectType.required = true;
-    }
 
+        // Requirements needed
+        requirementsSection.style.display = "block";
+    }
 
     // MOBILE APP
     else if (this.value === "Mobile App Development") {
@@ -611,6 +625,29 @@ enquiryType.addEventListener("change", function () {
         mobileSection.style.display = "block";
 
         appType.required = true;
+
+        // Requirements needed
+        requirementsSection.style.display = "block";
+    }
+
+    // AI / AUTOMATION
+    else if (this.value === "AI & Automation") {
+
+        requirementsSection.style.display = "block";
+    }
+
+    // INTERNSHIP
+    else if (this.value === "Internship") {
+
+        // No general requirements
+        requirementsSection.style.display = "none";
+        requirements.value = "";
+    }
+
+    // OTHER
+    else if (this.value === "Other") {
+
+        requirementsSection.style.display = "block";
     }
 
 });
