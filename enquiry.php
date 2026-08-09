@@ -316,7 +316,7 @@ curl_exec($ch);
 <!-- GENERAL REQUIREMENTS -->
 <!-- ========================= -->
 
-<div id="requirementsSection">
+<div id="requirementsSection" style="display:none;">
 
     <label for="requirements">Requirements / Details</label>
 
@@ -448,7 +448,6 @@ function downloadReceipt(){
 
 
 <script>
-
 document.getElementById("enquiryForm").addEventListener("submit", async function(e) {
 
     e.preventDefault();
@@ -461,22 +460,96 @@ document.getElementById("enquiryForm").addEventListener("submit", async function
 
     const formData = new FormData(form);
 
-    // Data sent to n8n Webhook1
+    // ================================
+    // DATA SENT TO n8n WEBHOOK1
+    // ================================
+
     const data = {
         student_name: formData.get("student_name"),
+        enquiry_type: formData.get("enquiry_type"),
+
+        // Course / Training
         course_name: formData.get("course_name"),
-        mobilenumber: formData.get("mobilenumber"),
         trainingmode: formData.get("trainingmode"),
+
+        // Software / Website
+        project_type: formData.get("project_type"),
+
+        // Mobile App
+        app_type: formData.get("app_type"),
+
+        // General Requirements
+        // Will be empty for Course / Training
+        requirements: formData.get("requirements") || "",
+
+        // Common fields
+        mobilenumber: formData.get("mobilenumber"),
         question: formData.get("question")
     };
-console.log("FORM:", form);
-console.log("student_name:", formData.get("student_name"));
-console.log("course_name:", formData.get("course_name"));
-console.log("trainingmode:", formData.get("trainingmode"));
-console.log("mobilenumber:", formData.get("mobilenumber"));
-console.log("question:", formData.get("question"));
-console.log("DATA:", data);
-    console.log("Data being sent to n8n:", data);
+
+
+    // ================================
+    // CONSOLE DEBUG
+    // ================================
+
+    console.log("FORM:", form);
+
+    console.log(
+        "student_name:",
+        formData.get("student_name")
+    );
+
+    console.log(
+        "enquiry_type:",
+        formData.get("enquiry_type")
+    );
+
+    console.log(
+        "course_name:",
+        formData.get("course_name")
+    );
+
+    console.log(
+        "trainingmode:",
+        formData.get("trainingmode")
+    );
+
+    console.log(
+        "project_type:",
+        formData.get("project_type")
+    );
+
+    console.log(
+        "app_type:",
+        formData.get("app_type")
+    );
+
+    console.log(
+        "requirements:",
+        formData.get("requirements")
+    );
+
+    console.log(
+        "mobilenumber:",
+        formData.get("mobilenumber")
+    );
+
+    console.log(
+        "question:",
+        formData.get("question")
+    );
+
+    console.log("DATA:", data);
+
+    console.log(
+        "Data being sent to n8n:",
+        JSON.stringify(data, null, 2)
+    );
+
+
+    // ================================
+    // SEND TO n8n WEBHOOK1
+    // ================================
 
     try {
 
@@ -484,53 +557,109 @@ console.log("DATA:", data);
             "https://shreeinfotechsoftware.app.n8n.cloud/webhook/website-enquiry",
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify(data)
             }
         );
 
+
+        // ================================
+        // GET n8n RESPONSE
+        // ================================
+
         const responseText = await response.text();
 
-        console.log("HTTP Status:", response.status);
-        console.log("Response:", responseText);
+        console.log(
+            "HTTP Status:",
+            response.status
+        );
+
+        console.log(
+            "Response:",
+            responseText
+        );
+
+
+        // ================================
+        // CHECK ERROR
+        // ================================
 
         if (!response.ok) {
+
             throw new Error(
-                "HTTP " + response.status + ": " + responseText
+                "HTTP " +
+                response.status +
+                ": " +
+                responseText
             );
         }
 
-let aiResponse = responseText;
 
-try {
-    const jsonResponse = JSON.parse(responseText);
+        // ================================
+        // PROCESS AI RESPONSE
+        // ================================
 
-    aiResponse =
-        jsonResponse.response ||
-        jsonResponse.output ||
-        jsonResponse.message ||
-        jsonResponse.text ||
-        responseText;
+        let aiResponse = responseText;
 
-} catch (e) {
-    // n8n returned plain text
-}
+        try {
 
-document.getElementById("successMessage").innerText = aiResponse;
+            const jsonResponse =
+                JSON.parse(responseText);
 
-showSuccess();
+            aiResponse =
+                jsonResponse.response ||
+                jsonResponse.output ||
+                jsonResponse.message ||
+                jsonResponse.text ||
+                responseText;
+
+        } catch (e) {
+
+            // n8n returned plain text
+
+        }
+
+
+        // ================================
+        // SHOW SUCCESS MODAL
+        // ================================
+
+        document.getElementById(
+            "successMessage"
+        ).innerText = aiResponse;
+
+        showSuccess();
+
+
+        // ================================
+        // RESET FORM
+        // ================================
 
         form.reset();
 
+
+        // Reset dynamic sections after form reset
+        if (typeof updateEnquiryFields === "function") {
+            updateEnquiryFields();
+        }
+
+
     } catch (error) {
 
-        console.error("Webhook Error:", error);
+        console.error(
+            "Webhook Error:",
+            error
+        );
 
         alert(
-            "Webhook Error:\n\n" + error.message
+            "Webhook Error:\n\n" +
+            error.message
         );
+
 
     } finally {
 
@@ -542,24 +671,46 @@ showSuccess();
 });
 
 
+// ======================================
+// SUCCESS MODAL
+// ======================================
+
 function showSuccess() {
-    document.getElementById("successModal").style.display = "flex";
+
+    document.getElementById(
+        "successModal"
+    ).style.display = "flex";
+
 }
 
+
+// ======================================
+// CLOSE MODAL
+// ======================================
 
 function closeModal() {
-    document.getElementById("successModal").style.display = "none";
+
+    document.getElementById(
+        "successModal"
+    ).style.display = "none";
+
     location.reload();
+
 }
 
 
+// ======================================
+// OPEN WHATSAPP
+// ======================================
+
 function openWhatsApp() {
+
     window.open(
         "https://wa.me/919579746773",
         "_blank"
     );
-}
 
+}
 </script>
 <script>
 const enquiryType = document.getElementById("enquiry_type");
