@@ -1,0 +1,91 @@
+N8N SETUP — COUNSELOR CRM UPDATE
+
+1. Create a new n8n workflow.
+2. Add a Webhook node.
+   Name:
+   Counselor Lead Update Webhook
+
+   HTTP Method:
+   POST
+
+   Path:
+   counselor-lead-update
+
+   Respond:
+   Immediately
+
+3. The PHP form sends JSON like:
+
+{
+  "lead_id": "123",
+  "student_name": "Rahul",
+  "phone": "9876543210",
+  "course": "Java",
+  "call_result": "Interested",
+  "interested": "Yes",
+  "lead_status": "Ready To Join",
+  "follow_up_date": "2026-08-20",
+  "counselor_name": "ABC Counselor",
+  "notes": "Student wants evening batch",
+  "updated_at": "2026-08-13 10:30:00"
+}
+
+4. After Webhook add Google Sheets node:
+   Get Row(s) / Lookup based on Lead_ID.
+
+5. Find the CRM row where:
+   Lead_ID = {{$json.body.lead_id}}
+
+6. Add Google Sheets Update Row.
+
+Recommended CRM columns:
+
+Lead_ID
+Student_Name
+Phone
+Course
+Course_Fee
+Enquiry_Date
+WhatsApp_Sent
+Voice_Call_Status
+Call_Result
+Interested
+Human_Required
+Counselor
+Counselor_Status
+Follow_Up_Date
+Lead_Status
+Counselor_Notes
+Last_Updated
+
+7. Map the incoming values:
+
+Call_Result       = {{$json.body.call_result}}
+Interested        = {{$json.body.interested}}
+Counselor        = {{$json.body.counselor_name}}
+Counselor_Status = Completed
+Follow_Up_Date   = {{$json.body.follow_up_date}}
+Lead_Status      = {{$json.body.lead_status}}
+Counselor_Notes  = {{$json.body.notes}}
+Last_Updated     = {{$json.body.updated_at}}
+
+8. If the counselor selects "Enrolled":
+   Lead_Status = Enrolled
+
+9. If "Call Back Later":
+   Lead_Status = Follow-up Required
+
+10. If "Not Interested":
+   Lead_Status = Not Interested
+
+COUNSELOR LINK
+
+For each lead send:
+
+https://YOUR-WEBSITE/counselor-update.php?lead_id=123
+
+Replace 123 with the actual CRM Lead_ID.
+
+IMPORTANT:
+Use HTTPS on the website.
+For production, use a signed/random token instead of exposing a predictable numeric Lead_ID.
