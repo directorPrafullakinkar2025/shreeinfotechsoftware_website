@@ -1,13 +1,4 @@
-<?php
-require_once "config.php";
 
-$leadId = clean($_GET['lead_id'] ?? '');
-
-if ($leadId === '') {
-    http_response_code(400);
-    exit("Invalid or missing Lead ID.");
-}
-?>
 <!doctype html>
 <html lang="en">
 <head>
