@@ -3,7 +3,7 @@
 $leadId = $_GET['Enquiry_ID'] ?? '';
 
 if ($leadId === '') {
-    die('Lead ID is missing.');
+    die('Enquiry ID is missing.');
 }
 ?>
 <!doctype html>
