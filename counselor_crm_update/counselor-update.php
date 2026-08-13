@@ -1,8 +1,8 @@
 
 <?php
-$leadId = $_GET['Enquiry_ID'] ?? '';
+$enquiryId = $_GET['Enquiry_ID'] ?? '';
 
-if ($leadId === '') {
+if ($enquiryId === '') {
     die('Enquiry ID is missing.');
 }
 ?>
@@ -34,11 +34,13 @@ button{width:100%;padding:14px;margin-top:22px;border:0;border-radius:9px;backgr
 <div class="subtitle">Complete this form after speaking with the student.</div>
 
 <div class="note">
-Lead ID: <b><?= htmlspecialchars($leadId) ?></b>
+    Enquiry ID: <b><?= htmlspecialchars($enquiryId) ?></b>
 </div>
 <form method="post" action="submit-counselor-update.php">
 
-<input type="hidden" name="Enquiry_ID" value="<?= htmlspecialchars($leadId) ?>">
+<input type="hidden"
+       name="Enquiry_ID"
+       value="<?= htmlspecialchars($enquiryId) ?>">
 
 <label>Student Name</label>
 <input type="text" name="student_name" placeholder="Student name">
