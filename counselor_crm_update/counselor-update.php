@@ -34,13 +34,13 @@ button{width:100%;padding:14px;margin-top:22px;border:0;border-radius:9px;backgr
 <div class="subtitle">Complete this form after speaking with the student.</div>
 
 <div class="note">
-    Enquiry ID: <b><?= htmlspecialchars($enquiryId) ?></b>
+    Enquiry ID:  <b><?= 'ENQ-001' ?></b>
 </div>
 <form method="post" action="submit-counselor-update.php">
 
 <input type="hidden"
        name="Enquiry_ID"
-       value="<?= htmlspecialchars($enquiryId) ?>">
+       value=" <?= 'ENQ-001' ?> ">
 
 <label>Student Name</label>
 <input type="text" name="student_name" placeholder="Student name">
