@@ -17,7 +17,7 @@ N8N SETUP — COUNSELOR CRM UPDATE
 3. The PHP form sends JSON like:
 
 {
-  "lead_id": "123",
+  "Enquiry_ID": "123",
   "student_name": "Rahul",
   "phone": "9876543210",
   "course": "Java",
@@ -31,16 +31,16 @@ N8N SETUP — COUNSELOR CRM UPDATE
 }
 
 4. After Webhook add Google Sheets node:
-   Get Row(s) / Lookup based on Lead_ID.
+   Get Row(s) / Lookup based on Enquiry_ID.
 
 5. Find the CRM row where:
-   Lead_ID = {{$json.body.lead_id}}
+   Enquiry_ID = {{$json.body.Enquiry_ID}}
 
 6. Add Google Sheets Update Row.
 
 Recommended CRM columns:
 
-Lead_ID
+Enquiry_ID
 Student_Name
 Phone
 Course
@@ -82,10 +82,10 @@ COUNSELOR LINK
 
 For each lead send:
 
-https://YOUR-WEBSITE/counselor-update.php?lead_id=123
+https://YOUR-WEBSITE/counselor-update.php?Enquiry_ID=123
 
-Replace 123 with the actual CRM Lead_ID.
+Replace 123 with the actual CRM Enquiry_ID.
 
 IMPORTANT:
 Use HTTPS on the website.
-For production, use a signed/random token instead of exposing a predictable numeric Lead_ID.
+For production, use a signed/random token instead of exposing a predictable numeric Enquiry_ID.

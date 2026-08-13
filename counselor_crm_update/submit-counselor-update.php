@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $data = [
-    "lead_id"        => clean($_POST['lead_id'] ?? ''),
+    "Enquiry_ID"        => clean($_POST['Enquiry_ID'] ?? ''),
     "student_name"   => clean($_POST['student_name'] ?? ''),
     "phone"          => clean($_POST['phone'] ?? ''),
     "course"         => clean($_POST['course'] ?? ''),
@@ -20,7 +20,7 @@ $data = [
     "updated_at"     => date('Y-m-d H:i:s')
 ];
 
-if ($data["lead_id"] === '' || $data["call_result"] === '' || $data["lead_status"] === '') {
+if ($data["Enquiry_ID"] === '' || $data["call_result"] === '' || $data["lead_status"] === '') {
     http_response_code(400);
     exit("Lead ID, Call Result and Lead Status are required.");
 }
@@ -76,7 +76,7 @@ p{color:#667085}
 <div class="card">
 <div class="ok">✓</div>
 <h1>CRM Updated Successfully</h1>
-<p>Lead <b><?= htmlspecialchars($data["lead_id"]) ?></b> has been updated.</p>
+<p>Lead <b><?= htmlspecialchars($data["Enquiry_ID"]) ?></b> has been updated.</p>
 <p>Status: <b><?= htmlspecialchars($data["lead_status"]) ?></b></p>
 </div>
 </body>

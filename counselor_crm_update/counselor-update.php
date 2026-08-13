@@ -1,6 +1,6 @@
 
 <?php
-$leadId = $_GET['lead_id'] ?? '';
+$leadId = $_GET['Enquiry_ID'] ?? '';
 
 if ($leadId === '') {
     die('Lead ID is missing.');
@@ -38,7 +38,7 @@ Lead ID: <b><?= htmlspecialchars($leadId) ?></b>
 </div>
 <form method="post" action="submit-counselor-update.php">
 
-<input type="hidden" name="lead_id" value="<?= htmlspecialchars($leadId) ?>">
+<input type="hidden" name="Enquiry_ID" value="<?= htmlspecialchars($leadId) ?>">
 
 <label>Student Name</label>
 <input type="text" name="student_name" placeholder="Student name">
