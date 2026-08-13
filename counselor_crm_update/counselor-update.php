@@ -1,4 +1,11 @@
 
+<?php
+$leadId = $_GET['lead_id'] ?? '';
+
+if ($leadId === '') {
+    die('Lead ID is missing.');
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -29,7 +36,6 @@ button{width:100%;padding:14px;margin-top:22px;border:0;border-radius:9px;backgr
 <div class="note">
 Lead ID: <b><?= htmlspecialchars($leadId) ?></b>
 </div>
-
 <form method="post" action="submit-counselor-update.php">
 
 <input type="hidden" name="lead_id" value="<?= htmlspecialchars($leadId) ?>">
